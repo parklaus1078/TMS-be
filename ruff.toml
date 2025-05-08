@@ -1,0 +1,55 @@
+line-length = 200
+unsafe-fixes = true
+cache-dir = ".ruff_cache"
+target-version = "py311"
+
+[lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "TCH",
+    # W
+    "W292",
+    "W505",
+    # PT
+    "PT018",
+    # SIM
+    "SIM101",
+    "SIM114",
+    # PGH
+    "PGH004",
+    # PL
+    "PLE1142",
+    # RUF
+    "RUF100",
+    # UP
+    "UP007"
+]
+preview = true
+ignore = ["FURB101"]
+extend-select = ["Q"]
+
+[lint.flake8-pytest-style]
+mark-parentheses = false
+parametrize-names-type = "list"
+parametrize-values-row-type = "list"
+parametrize-values-type = "tuple"
+
+[lint.flake8-unused-arguments]
+ignore-variadic-names = true
+
+[lint.flake8-quotes]
+docstring-quotes = "single"
+inline-quotes = "single"
+multiline-quotes = "single"
+
+[lint.isort]
+lines-between-types = 1
+order-by-type = true
+
+
+[format]
+preview = true
+quote-style = "single"
+docstring-code-format = true
