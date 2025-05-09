@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from src.models.base_model import BaseModel
+from utils.models.base_model import BaseModel
 
 
 class AiSolutions(BaseModel):
