@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from src.ai_solutions.ai_solutions_dependency import get_ai_solution_service
 from src.ai_solutions.ai_solutions_model import AiSolution
@@ -18,8 +18,13 @@ async def get_ai_solutions(
     ai_solutions_service: AiSolutionsService = Depends(get_ai_solution_service),
     limit: int = Query(default=15, description='The number of AI solutions to return'),
     offset: int = Query(default=0, description='The number of AI solutions to skip'),
-    keywords: list[str] | None = Query(default=None, description='The keywords to filter the AI solutions by'),
+    keywords: str | None = Query(default=None, description='The keywords to filter the AI solutions by'),
     provider: str | None = Query(default=None, description='The provider to filter the AI solutions by'),
     name: str | None = Query(default=None, description='The name to filter the AI solutions by'),
 ) -> list[AiSolution]:
+    try:
+        keywords = [keyword.strip() for keyword in keywords.split(',')] if keywords else None
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
     return await ai_solutions_service.get_ai_solutions(limit, offset, keywords, provider, name)
