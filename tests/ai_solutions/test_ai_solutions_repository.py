@@ -1,6 +1,7 @@
 import pytest
 
 from src.ai_solutions.ai_solutions_repository import AiSolutionsRepository
+from src.utils.exceptions.custom_exceptions import DBException
 
 
 @pytest.fixture()
@@ -64,6 +65,14 @@ async def test_get_ai_solutions_success_keywords_condition_with_name_and_provide
 
 
 @pytest.mark.asyncio
+async def test_get_ai_solutions_success_sort_by_condition(ai_solutions_repository, set_up_data):
+    docs = await ai_solutions_repository.get_ai_solutions(10, 0, None, None, None, 'name', -1)
+
+    for i in range(len(docs)):
+        assert docs[i].name == f'test {len(docs) - 1 - i}'
+
+
+@pytest.mark.asyncio
 async def test_get_ai_solutions_failure(ai_solutions_repository):
-    with pytest.raises(Exception):
+    with pytest.raises(DBException):
         await ai_solutions_repository.get_ai_solutions(10, 0, None, None, None)
